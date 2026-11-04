@@ -4,7 +4,7 @@ import json
 import asyncio
 from pathlib import Path
 from typing import Optional, Union, Any
-from mcp.server.mcpserver import MCPServer
+from mcp.server.fastmcp import FastMCP
 from twikit import Client
 from twikit.tweet import Tweet
 import twikit.client.gql
@@ -15,7 +15,7 @@ twikit.client.gql.Endpoint.DELETE_RETWEET = 'https://x.com/i/api/graphql/ZyZigVs
 twikit.client.gql.Endpoint.SEARCH_TIMELINE = 'https://x.com/i/api/graphql/3fEctOs2-FvTB7_mvm1hrQ/SearchTimeline'
 twikit.client.gql.Endpoint.CREATE_TWEET = 'https://x.com/i/api/graphql/l4hk8uVGvR-a8kzQ4nOhPA/CreateTweet'
 
-mcp = MCPServer("x-twikit")
+mcp = FastMCP("x-twikit", host="0.0.0.0", stateless_http=True, json_response=True)
 
 
 def _format_error(exc: Any) -> str:
@@ -265,7 +265,7 @@ async def _upload_media_files(client: Client, media_paths: Optional[Union[list, 
 def _get_priority_config_path() -> Path:
     """Return the file path for priority accounts watchlist."""
     base_dir = Path(__file__).resolve().parent
-    return base_dir / "priority_accounts.json"
+    return Path(os.environ.get("TWITTER_DATA_DIR", str(base_dir))) / "priority_accounts.json"
 
 
 # -------------------------------------------------------------
