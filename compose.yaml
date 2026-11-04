@@ -1,0 +1,17 @@
+services:
+  x-twikit-mcp:
+    build: .
+    restart: unless-stopped
+    environment:
+      MCP_ACCESS_TOKEN: ${MCP_ACCESS_TOKEN:?Set MCP_ACCESS_TOKEN}
+    volumes:
+      - x-twikit-data:/data
+    networks:
+      coolify:
+        aliases:
+          - x-twikit-mcp
+volumes:
+  x-twikit-data:
+networks:
+  coolify:
+    external: true
