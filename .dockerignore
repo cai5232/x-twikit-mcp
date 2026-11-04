@@ -1,0 +1,7 @@
+.git
+.env*
+cookies.json
+*.cookies
+__pycache__
+.venv
+priority_accounts.json
