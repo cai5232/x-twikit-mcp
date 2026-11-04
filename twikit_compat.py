@@ -30,3 +30,17 @@ def install():
         return indices[0], indices[1:]
 
     transaction.ClientTransaction.get_indices = get_indices
+
+    # X omits the description URL list when a profile has no links.
+    from twikit.user import User
+    original_user_init = User.__init__
+
+    def user_init(self, client, data):
+        from copy import deepcopy
+        data = deepcopy(data)
+        legacy = data.get("legacy", {})
+        entities = legacy.setdefault("entities", {})
+        entities.setdefault("description", {}).setdefault("urls", [])
+        original_user_init(self, client, data)
+
+    User.__init__ = user_init
