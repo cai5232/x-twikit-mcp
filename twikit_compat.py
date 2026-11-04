@@ -41,6 +41,13 @@ def install():
         legacy = data.get("legacy", {})
         entities = legacy.setdefault("entities", {})
         entities.setdefault("description", {}).setdefault("urls", [])
+        legacy.setdefault("pinned_tweet_ids_str", [])
+        legacy.setdefault("withheld_in_countries", [])
+        for field in ("can_dm", "can_media_tag", "want_retweets", "has_custom_timelines",
+                      "possibly_sensitive", "fast_followers_count", "normal_followers_count",
+                      "is_translator", "translator_type", "verified", "default_profile",
+                      "default_profile_image"):
+            legacy.setdefault(field, None)
         original_user_init(self, client, data)
 
     User.__init__ = user_init
