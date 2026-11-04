@@ -8,6 +8,8 @@ from mcp.server.fastmcp import FastMCP
 from twikit import Client
 from twikit.tweet import Tweet
 import twikit.client.gql
+from twikit_compat import install as install_twikit_compat
+install_twikit_compat()
 
 # Patch Twitter/X GraphQL dynamic query IDs to prevent 404 errors from API updates
 twikit.client.gql.Endpoint.CREATE_RETWEET = 'https://x.com/i/api/graphql/mbRO74GrOvSfRcJnlMapnQ/CreateRetweet'
